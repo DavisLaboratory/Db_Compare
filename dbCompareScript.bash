@@ -4,7 +4,7 @@ if [ ! -f ./RXM.owl ] || [ ! -f ./PSP.owl ] || [ ! -f ./HPRD.owl ] || [ ! -f ./W
     unzip sigDatabaseFiles.zip
 fi
 
-if [ ! -f ./IMEX.tsv] || [ ! -f ./QPHOS_DATA.tsv ] || [ ! -f ./QPHOS_SUPP_DATA.tsv ] ; then
+if [ ! -f ./IMEX.tsv ] || [ ! -f ./QPHOS_DATA.tsv ] || [ ! -f ./QPHOS_SUPP_DATA.tsv ] ; then
     unzip refDatabaseFiles.zip
 fi
 
