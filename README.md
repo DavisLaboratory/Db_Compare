@@ -67,4 +67,4 @@ Download the following files and place in the directory created in DbCompare
 * Download the gmt file for WikiPathways (from WikiPathways, Homo_sapiens [Gene lists per pathway(GMT)](http://data.wikipathways.org/current/gmt/wikipathways-20200810-gmt-Homo_sapiens.gmt)) and name it WP.tsv
 * Download the ppi from IMEX (from IMEX [intact-micluster.txt from psi-mitab](https://www.ebi.ac.uk/intact/downloads)) and name it IMEX.tsv
 * Request the dataset from [qPhos](http://qphos.cancerbio.info/download.php) and name the file QPHOS_DATA.tsv
-* Copy the qPhos supplementary data file from the 'about' page in the qPhos website and name the file QPHOS_SUPP_DATA.tsv
+* Copy the qPhos Summary of curated literatures table from the 'help' page in the qPhos website and name the file QPHOS_SUPP_DATA.tsv
