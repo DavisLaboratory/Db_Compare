@@ -10,7 +10,8 @@ In order to perform the analysis these libraries must be installed:
 
 Then follow these steps:
 
-1.Create a new directory and place the provided script folders inside (python_scripts and dbcompare_jar)
+1.Create a new directory and place the provided scripts, files and folders inside
+or clone this repo.
 
 2.If you would like to use the most current version of the databases:
 * Download the following files and place in the directory created in step 1.
