@@ -2,7 +2,7 @@
 
 *NOTE: only works on Mac or Linux OS*
 
-`Db_Compare` does [@HannahHuckstep, give a one sentence explanation of what this repo does 😊]
+`Db_Compare` Compares the databases Reactome, KEGG, HPRD, WikiPathways and PhosphoSitePlus on their coverage of phospho/proteomic data.
  
 ## Requirements
 
@@ -16,6 +16,7 @@ conda create --name DbCompareConda \
   pandas \
   requests \
   urllib3 \
+  tqdm \
   r=3.6 \
   r-upsetr \
   r-sna \
@@ -47,9 +48,6 @@ See the bullet points further down the page for names and locations of databases
 conda activate DbCompareConda
 cd Db_Compare/
 bash dbCompareScript.bash
-
-# Enter directory name
-> <dirName> [@HannahHuckstep, this needs to be documented better 😊]
 ```
 
 
@@ -62,13 +60,11 @@ The consistency analysis results can be found in each's database directory (For 
 ### Databases for step 2
 
 Download the following files and place in the directory created in step 1.
-* Download the OWL file for Ractome (from Reactome, BioPAX level 3) and name it RXM.owl
-* Download the OWL file for PhosphoSitePlus (from PhosphoSitePlus, BioPAX:Kinase-substrate information) and name it PSP.owl
-* Download the file for the full version of PhosphoSitePlus (from PhosphoSitePlus, Phosphorylation_site_dataset) and name it PSP_full.tsv
-* Download the OWL file for HPRD (from Pathway Commons) and name it HPRD.owl
-* Download the gmt file for WikiPathways (from WikiPathways, Gene lists per pathway(GMT)) and name it WP.tsv
-* Download the UniProt ID Gene Ontology list for Cell Signalling Category (GO:0023052) and name it GO_SIG.txt
-* Download the UniProt ID Gene Ontology list for Kinase Activity Category (GO:0016301) and name it GO_KA.txt
-* Download the ppi from IMEX (from IMEX) and name it IMEX.tsv
-* Request the dataset from qPhos and name the file QPHOS_DATA.tsv
+* Download the OWL file for Ractome (from Reactome, [BioPAX level 3](https://reactome.org/download/current/biopax.zip)) and name it RXM.owl
+* Download the OWL file for PhosphoSitePlus (from PhosphoSitePlus, [BioPAX:Kinase-substrate information](https://www.phosphosite.org/staticDownloads)) and name it PSP.owl
+* Download the file for the full version of PhosphoSitePlus (from PhosphoSitePlus, [Phosphorylation_site_dataset](https://www.phosphosite.org/staticDownloads)) and name it PSP_full.tsv
+* Download the OWL file for HPRD (from Pathway Commons [PathwayCommons11.hprd.BIOPAX.owl.gz ](https://www.pathwaycommons.org/archives/PC2/v11/PathwayCommons11.hprd.BIOPAX.owl.gz)) and name it HPRD.owl
+* Download the gmt file for WikiPathways (from WikiPathways, Homo_sapiens [Gene lists per pathway(GMT)](http://data.wikipathways.org/current/gmt/wikipathways-20200810-gmt-Homo_sapiens.gmt)) and name it WP.tsv
+* Download the ppi from IMEX (from [IMEX](ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact-micluster.txt)) and name it IMEX.tsv
+* Request the dataset from [qPhos](http://qphos.cancerbio.info/download.php) and name the file QPHOS_DATA.tsv
 * Copy the qPhos supplementary data file from the 'about' page in the qPhos website and name the file QPHOS_SUPP_DATA.tsv
