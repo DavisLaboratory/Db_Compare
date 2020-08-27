@@ -26,7 +26,7 @@ or clone this repo.
 * Request the dataset from qPhos and name the file QPHOS_DATA.tsv
 * Copy the qPhos supplementary data file from the 'about' page in the qPhos website and name the file QPHOS_SUPP_DATA.tsv
 
-Otherwise the script will use the versions provided in the zip files.
+**Otherwise the script will use the versions provided in the zip files.**
 
 3. Run the bash script dbCompare.bash on the command line
 
