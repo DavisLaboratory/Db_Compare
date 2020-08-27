@@ -22,10 +22,10 @@ conda create --name DbCompareConda \
   r-sna \
   r-plotrix \
   r-ggplot2 \
+  r-rmarkdown \
   bioconductor-clusterprofiler \
   bioconductor-org.hs.eg.db \
   pandoc \
-  rmarkdown\
   openjdk=8
 ```
 
