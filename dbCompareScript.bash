@@ -1,52 +1,49 @@
 #!/bin/bash
 
-echo "Enter directory name"
-read dirname
-
 unzip sigDatabaseFiles.zip
 unzip refDatabaseFiles.zip 
 
-mkdir $dirname/RXM
-mkdir $dirname/PSP
-mkdir $dirname/HPRD
-mkdir $dirname/KEGG
-mkdir $dirname/WP
-mkdir $dirname/GO
-mkdir $dirname/IMEX
-mkdir $dirname/QPHOS
-mkdir $dirname/UNIPROT
-mkdir $dirname/PSP_full
+mkdir ./RXM
+mkdir ./PSP
+mkdir ./HPRD
+mkdir ./KEGG
+mkdir ./WP
+mkdir ./GO
+mkdir ./IMEX
+mkdir ./QPHOS
+mkdir ./UNIPROT
+mkdir ./PSP_full
 
-mv $dirname/RXM.owl $dirname/RXM
-mv $dirname/PSP.owl $dirname/PSP
-mv $dirname/HPRD.owl $dirname/HPRD
-mv $dirname/WP.tsv $dirname/WP
-mv $dirname/GO_* $dirname/GO
-mv $dirname/IMEX.tsv $dirname/IMEX
-mv $dirname/QPHOS_* $dirname/QPHOS
-mv $dirname/PSP_full.tsv $dirname/PSP_full
+mv ./RXM.owl ./RXM
+mv ./PSP.owl ./PSP
+mv ./HPRD.owl ./HPRD
+mv ./WP.tsv ./WP
+mv ./GO_* ./GO
+mv ./IMEX.tsv ./IMEX
+mv ./QPHOS_* ./QPHOS
+mv ./PSP_full.tsv ./PSP_full
 
 
 # for Reactome, PhosphositePlus and HPRD create the database, print the UIDs and Mods,remove isoforms, then do consistency analysis 
 #: <<'END'
 
-for f in $dirname/RXM/RXM.owl $dirname/PSP/PSP.owl $dirname/HPRD/HPRD.owl 
+for f in ./RXM/RXM.owl ./PSP/PSP.owl ./HPRD/HPRD.owl 
 do
 	echo
 	echo  $(basename -- "${f%.*}")
-	java -jar $dirname/dbcompare_jar/dbcompare.jar --mode CreateDB -iof $f -op $dirname/$(basename -- "${f%.*}")/GRAPH  -sa $dirname/SEC_ACC.tsv -uid $dirname/UIDs.tsv 
-	java -jar $dirname/dbcompare_jar/dbcompare.jar --mode WriteAllUIDs -idb $dirname/$(basename -- "${f%.*}")/GRAPH -op $dirname/$(basename -- "${f%.*}")/
-	java -jar $dirname/dbcompare_jar/dbcompare.jar --mode WritePhos -idb $dirname/$(basename -- "${f%.*}")/GRAPH -op $dirname/$(basename -- "${f%.*}")/
-	sort -u $dirname/$(basename -- "${f%.*}")/UniProtIDs.tsv | sed '/-[0-9]\{1,2\}/d' > $dirname/$(basename -- "${f%.*}")/UniProtIDs_noISO.tsv 
-	sort -u $dirname/$(basename -- "${f%.*}")/Phosphorylations.tsv | sed '/-[0-9]\{1,2\}/d' > $dirname/$(basename -- "${f%.*}")/Phosphorylations_NoISO.tsv 
-	java -jar $dirname/dbcompare_jar/dbcompare.jar --mode CompareModListToUniProt -itf $dirname/$(basename -- "${f%.*}")/Phosphorylations_NoISO.tsv -op $dirname/$(basename -- "${f%.*}")/
+	java -jar ./dbcompare_jar/dbcompare.jar --mode CreateDB -iof $f -op ./$(basename -- "${f%.*}")/GRAPH  -sa ./SEC_ACC.tsv -uid ./UIDs.tsv 
+	java -jar ./dbcompare_jar/dbcompare.jar --mode WriteAllUIDs -idb ./$(basename -- "${f%.*}")/GRAPH -op ./$(basename -- "${f%.*}")/
+	java -jar ./dbcompare_jar/dbcompare.jar --mode WritePhos -idb ./$(basename -- "${f%.*}")/GRAPH -op ./$(basename -- "${f%.*}")/
+	sort -u ./$(basename -- "${f%.*}")/UniProtIDs.tsv | sed '/-[0-9]\{1,2\}/d' > ./$(basename -- "${f%.*}")/UniProtIDs_noISO.tsv 
+	sort -u ./$(basename -- "${f%.*}")/Phosphorylations.tsv | sed '/-[0-9]\{1,2\}/d' > ./$(basename -- "${f%.*}")/Phosphorylations_NoISO.tsv 
+	java -jar ./dbcompare_jar/dbcompare.jar --mode CompareModListToUniProt -itf ./$(basename -- "${f%.*}")/Phosphorylations_NoISO.tsv -op ./$(basename -- "${f%.*}")/
 done
 #END
 
 # for KEGG extract UIDs and then update them, then remove isoforms
 echo
 echo 'KEGG'
-cd $dirname/KEGG
+cd ./KEGG
 python3 ../python_scripts/kegg2uniprot.py
 sort -u AllUIDs.txt |  sed '/-[0-9]\{1,2\}/d' > AllUIDs_unique.txt 
 java -jar ../dbcompare_jar/dbcompare.jar --mode UpdateUniProtIDs -itf AllUIDs_unique.txt -op ./ -sa ../SEC_ACC.tsv -uid ../UIDs.tsv
