@@ -6,9 +6,11 @@ In order to perform the analysis these libraries must be installed:
 
 **Java 8**
 
-**python3**: copy, gzip, io, logging, pickle, pathlib, collections, itertools, typing, pandas, requests, tqdm, bs4, requests.adapters, urllib3, sys, re, request, urllibs
+**python3**: pandas, requests, tqdm, bs4, urllib3
 
-**R**: UpSetR, sna, plotrix, ggplot2, clusterProfiler, org.Hs.eg.db, pandoc
+**R**: 
+Can be installed via 'install.packages':  UpSetR, sna, plotrix, ggplot2, clusterProfiler, org.Hs.eg.db, 
+Can be installed via homebrew: rmarkdown, pandoc
 
 Then follow these steps:
 
