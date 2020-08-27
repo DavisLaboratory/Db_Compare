@@ -1,5 +1,7 @@
 # Db_Compare
 
+*only works on Mac or Linux OS*
+
 In order to perform the analysis these libraries must be installed:
 
 **Java 8**
