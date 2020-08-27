@@ -65,6 +65,6 @@ Download the following files and place in the directory created in step 1.
 * Download the file for the full version of PhosphoSitePlus (from PhosphoSitePlus, [Phosphorylation_site_dataset](https://www.phosphosite.org/staticDownloads)) and name it PSP_full.tsv
 * Download the OWL file for HPRD (from Pathway Commons [PathwayCommons11.hprd.BIOPAX.owl.gz ](https://www.pathwaycommons.org/archives/PC2/v11/PathwayCommons11.hprd.BIOPAX.owl.gz)) and name it HPRD.owl
 * Download the gmt file for WikiPathways (from WikiPathways, Homo_sapiens [Gene lists per pathway(GMT)](http://data.wikipathways.org/current/gmt/wikipathways-20200810-gmt-Homo_sapiens.gmt)) and name it WP.tsv
-* Download the ppi from IMEX (from [IMEX](ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact-micluster.txt)) and name it IMEX.tsv
+* Download the ppi from IMEX (from IMEX[intact-micluster.txt](ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab)) and name it IMEX.tsv
 * Request the dataset from [qPhos](http://qphos.cancerbio.info/download.php) and name the file QPHOS_DATA.tsv
 * Copy the qPhos supplementary data file from the 'about' page in the qPhos website and name the file QPHOS_SUPP_DATA.tsv
