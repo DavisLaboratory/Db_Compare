@@ -10,10 +10,10 @@ In order to perform the analysis these libraries must be installed:
 
 Then follow these steps:
 
-1.Create a new directory and place the provided scripts, files and folders inside
+1. Create a new directory and place the provided scripts, files and folders inside
 or clone this repo.
 
-2.If you would like to use the most current version of the databases:
+2. If you would like to use the most current version of the databases:
 * Download the following files and place in the directory created in step 1.
 * Download the OWL file for Ractome (from Reactome, BioPAX level 3) and name it RXM.owl
 * Download the OWL file for PhosphoSitePlus (from PhosphoSitePlus, BioPAX:Kinase-substrate information) and name it PSP.owl
@@ -28,10 +28,10 @@ or clone this repo.
 
 Otherwise the script will use the versions provided in the zip files.
 
-3.Run the bash script dbCompare.bash on the command line
+3. Run the bash script dbCompare.bash on the command line
 
 (Open your terminal, navigate to the correct directory using the 'cd' command, run it by typing './dbCompare.bash')
 
-4.Open the HTML file (dbCompareNotebook.html) created to view the resulting plots
+4. Open the HTML file (dbCompareNotebook.html) created to view the resulting plots
 
 The consistency analysis results can be found in each's database directory (For Reactome, PhosphoSitePlus, HPRD, and qPhos)
