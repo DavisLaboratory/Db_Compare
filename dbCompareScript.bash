@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [ ! -f ./RXM.owl] || [ ! -f ./PSP.owl] ||[ ! -f ./HPRD.owl] || [ ! -f ./WP.tsv]; then
+if [ ! -f ./RXM.owl ] || [ ! -f ./PSP.owl ] || [ ! -f ./HPRD.owl ] || [ ! -f ./WP.tsv ] ; then
     unzip sigDatabaseFiles.zip
 fi
 
-if [ ! -f ./IMEX.tsv] || [ ! -f ./QPHOS_DATA.tsv] ||[ ! -f ./QPHOS_SUPP_DATA.tsv]; then
+if [ ! -f ./IMEX.tsv] || [ ! -f ./QPHOS_DATA.tsv ] || [ ! -f ./QPHOS_SUPP_DATA.tsv ] ; then
     unzip refDatabaseFiles.zip
 fi
 
