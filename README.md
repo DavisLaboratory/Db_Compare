@@ -25,6 +25,7 @@ conda create --name DbCompareConda \
   bioconductor-clusterprofiler \
   bioconductor-org.hs.eg.db \
   pandoc \
+  rmarkdown\
   openjdk=8
 ```
 
