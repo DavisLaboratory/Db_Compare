@@ -18,6 +18,7 @@ conda create --name DbCompareConda \
   urllib3 \
   bs4 \
   tqdm \
+  lxml \
   r=3.6 \
   r-upsetr \
   r-sna \
