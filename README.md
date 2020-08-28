@@ -16,6 +16,7 @@ conda create --name DbCompareConda \
   pandas \
   requests \
   urllib3 \
+  bs4 \
   tqdm \
   r=3.6 \
   r-upsetr \
