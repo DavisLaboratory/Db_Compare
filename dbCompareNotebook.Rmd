@@ -10,7 +10,7 @@ Libraries
 ```{r message=FALSE}
 library(UpSetR)
 library(sna)
-library(plotrix)
+library(plotrix) 
 library(ggplot2)
 library(clusterProfiler)
 library(org.Hs.eg.db)
@@ -110,9 +110,9 @@ erichment.plot <- function (uniqueList, background, title){
     keyType = "UNIPROT",
     universe = ultimate,
     OrgDb = "org.Hs.eg.db",      # organism to analyze
-    ont = as.character('MF'),    # ontology term
-    pAdjustMethod = "BH",        # method for multiple testing correction - benjamini & hochberg
-    pvalueCutoff = 0.05,         # P-value cutoff for the proteomic course
+    ont = as.character('MF'),    # ontology term ("BP", "MF", "CC")
+    pAdjustMethod = "BH",        # method for multiple testing correction 
+    pvalueCutoff = 0.05,         # P-value cutoff 
     qvalueCutoff = 0.05,         # default to 0.2
     readable = TRUE,            # return gene symbols
     minGSSize = 5,              # minimal size of genes annotated by Ontology term for testing.
@@ -130,23 +130,29 @@ dn <- "./"
 PSP <- read.csv( paste0(dn,"PSP/UniProtIDs_noISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 RXM <- read.csv(paste0(dn, "RXM/UniProtIDs_noISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 HPRD <- read.csv(paste0(dn, "HPRD/UniProtIDs_noISO.tsv" ), header = FALSE, stringsAsFactors = FALSE)[,1]
+BG <- read.csv(paste0(dn, "BG/UniProtIDs_noISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 KEGG <- read.csv(paste0(dn, "KEGG/updatedAllUID.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 WP <- read.csv(paste0(dn, "WP/updatedAllUID.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
+SIG <- read.csv(paste0(dn, "SIGNOR/UniProtIDs_noISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 
 
 # Phosphosites
 PSP_mods <- read.csv(paste0(dn, "PSP/Phosphorylations_NoISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 RXM_mods <- read.csv(paste0(dn, "RXM/Phosphorylations_NoISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 HPRD_mods <- read.csv(paste0(dn,"HPRD/Phosphorylations_NoISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
+BG_mods <- read.csv(paste0(dn,"BG/Phosphorylations_NoISO.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 UNIPROT_mods <- read.csv(paste0(dn, "UNIPROT/SwissProtMods.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
+SIG_mods <- read.csv(paste0(dn, "SIGNOR/Phosphorylations_NoIso.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 
 # reference databases 
 QPHOS <- read.csv(paste0(dn,"QPHOS/updatedAllUID_qphos.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 IMEX <- read.csv(paste0(dn,"IMEX/updatedAllUID.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
-#UNIPROT <- read.csv("/Users/huckstep.h/Documents/neo4j/coverageAnalysis2/UNIPROT/UniprotUIDs.tsv", header = FALSE, stringsAsFactors = FALSE)[,1]
-GO_KA <- read.csv(paste0(dn, "GO/updatedAllUID_KA.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
+UNIPROT <- read.csv("UIDs.tsv", header = FALSE, stringsAsFactors = FALSE)[,1]
 GO_SIG <- read.csv(paste0(dn,"GO/updatedAllUID_SIG.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
 QPhos_mods <- read.csv(paste0(dn, "QPHOS/updatedAllUID_qphos_mods.tsv"), header = FALSE, stringsAsFactors = FALSE)[,1]
+GO_PKA <- read.csv( paste0(dn, "GO/updatedAllUID_PKA.tsv"),sep = "\t", header = TRUE, stringsAsFactors = FALSE)[,1]
+UP_PP <- read.csv(paste0(dn,"UNIPROT/UP_PP.tsv"),sep = "\t", header = TRUE, stringsAsFactors = FALSE)[,1]
+
 
 
 # Experimental data 
@@ -172,23 +178,25 @@ SwissProt <- read.csv(paste0(dn, "UNIPROT/SwissProt.tsv"), header = FALSE, strin
 ## Protein Level 
 UpSet Plot 
 ```{r fig.width=18}
-listInput <- list(PhosphoSitePlus= PSP, HPRD_PC = HPRD,Reactome = RXM, KEGG= KEGG, WikiPathways = WP)
+
+listInput <- list(PhosphoSitePlus= PSP, HPRD = HPRD, BioGRID = BG, Reactome = RXM, KEGG= KEGG, WikiPathways = WP, SIGNOR = SIG)
 matrix <- UpSetR::fromList(listInput)
 
 upset(matrix,
+      empty.intersections = "on",
       order.by = "freq",
+      nsets = 7,
       text.scale = c(1.5, 1.5, 0, 1.5, 2, 2),
-      #nintersects = 20,
+      nintersects = 20,
       scale.sets = "identity",
-      empty.intersections = TRUE,
-      sets.bar.color = c("#fe7f2d", "#233d4d", "#a1c181", "#619b8a", "#fcca46")
+      sets.bar.color = c("#909cc2", "#fe7f2d","#233d4d","#a1c181", "#619b8a", "#e099dc", "#fcca46")
       )
 ```
 
 Bar Plot 
 ```{r fig.width=12}
 # specifing outside order
-level_order= c(  "Reactome", "HPRD_PC", "KEGG", "WikiPathways", "PhosphoSitePlus" )
+level_order= c("BioGRID", "Reactome","HPRD",  "KEGG", "WikiPathways","SIGNOR", "PhosphoSitePlus" )
 it_len = length(level_order)
 
 # making empty lists
@@ -231,45 +239,49 @@ A <- data.frame(db1, db2, intersects, order)
 mydf <- rbind(A, mydf)
 mydf <- mydf[order(mydf$order, decreasing = F),]
 
+
 p <- ggplot(data = mydf, aes( x= factor(db1, level = level_order)  , intersects, fill = db2)) +
   geom_bar(aes(group = order), stat = "identity", position = position_dodge())+
   coord_flip()+
-  scale_fill_manual(values=c("#233d4d", "#a1c181", "#fcca46", "#fe7f2d", "#619b8a"))+
+  scale_fill_manual(values=c("#909cc2","#233d4d","#a1c181","#fcca46","#fe7f2d","#e099dc","#619b8a" ))+
   #scale_fill_manual(values = wes_palette("Cavalcanti1"))+
   xlab("Databases") + ylab("UniProt id overlap") +
   theme_bw()
-
 p
+
+#hprd, bg, wp, rxm, psp, sig, kg ??
+
 ```
 
 Intersection heatmap
 
 ```{r fig.width=12}
-dbNames = list( "Reactome","HPRD (PC)","KEGG", "WikiPathways", "PhosphoSitePlus" )
-dbList = list(RXM, HPRD, KEGG, WP, PSP)
-refNameList = list("qPhos","IMEX","GO\nKinase Activity", "GO Signalling")
-refList = list(QPHOS, IMEX, GO_KA, GO_SIG)
+dbNames = list( "BioGRID","Reactome","HPRD","KEGG", "WikiPathways", "SIGNOR", "PhosphoSitePlus" )
+dbList = list( BG, RXM, HPRD, KEGG, WP, SIG,PSP)
+refNameList = list("qPhos","IMEX","GO Protein\nKinase Activity", "GO Signalling", "UniProt keyword:\nPhosphoProtein")
+refList = list(QPHOS, IMEX, GO_PKA, GO_SIG, UP_PP)
 
 intersection.plot(dbNames, dbList, refNameList, refList)
 ```
 
 ## Phosphosite Level
 Upset Plot
-```{r fig.width= 12}
-listInput <- list(PhosphoSitePlus= PSP_mods, HPRD_PC = HPRD_mods,Reactome = RXM_mods, UniProt= UNIPROT_mods)
+```{r fig.width= 16}
+listInput <- list(PhosphoSitePlus= PSP_mods, HPRD = HPRD_mods, Reactome = RXM_mods,  BioGRID = BG_mods, SIGNOR = SIG_mods )
 
 
 upset(fromList(listInput), 
+      nsets = 5,
       order.by = "freq",   
       empty.intersections = TRUE,
       text.scale = c(1.5, 1.5, 1.5, 1.5, 2, 2),
-      sets.bar.color = c( "#909cc2","#233d4d","#fcca46",  "#fe7f2d")
+      sets.bar.color = c( "#233d4d","#fcca46","#e099dc","#909cc2", "#fe7f2d")
       )
 ```
 Bar Plot 
 ```{r fig.width=12}
 #specifing outside order 
-level_order= c( "UniProt","HPRD_PC","PhosphoSitePlus", "Reactome")
+level_order= c( "HPRD","PhosphoSitePlus", "SIGNOR","BioGRID","Reactome")
 it_len = length(level_order)
 
 # making empty lists 
@@ -315,20 +327,21 @@ mydf <- mydf[order(mydf$order, decreasing = F),]
 p <- ggplot(data = mydf, aes( x= factor(db1, level = level_order)  , intersects, fill = db2, group = order)) + 
   geom_bar(aes(group = order), stat = "identity", position = position_dodge())+
   coord_flip() +
-  scale_fill_manual(values=c("#233d4d", "#fcca46", "#fe7f2d" , "#909cc2"))+
+  scale_fill_manual(values=c("#909cc2","#233d4d", "#fcca46", "#fe7f2d" , "#e099dc" ))+
   xlab("Databases") + ylab("Phosphorylation overlap") +
   theme_bw()
 
 p
+#hprd, bg, psp, rxm. sig??
 ```
 
 Intersection heatmap 
 
 
-```{r}
-dbNames = list( "HPRD (PC)", "PhosphoSitePlus", "Reactome")
-dbList = list( HPRD_mods, PSP_mods, RXM_mods )
-refNames = list("QPhos", "UniProt" )
+```{r fig.width=10}
+dbNames = list( "HPRD",  "PhosphoSitePlus","SIGNOR", "BioGRID", "Reactome")
+dbList = list( HPRD_mods,  PSP_mods, SIG_mods, BG_mods, RXM_mods )
+refNames = list("qPhos", "SwissProt" )
 refList = list(QPhos_mods, UNIPROT_mods)
 
 intersection.plot(dbNames, dbList, refNames, refList)
@@ -339,8 +352,8 @@ intersection.plot(dbNames, dbList, refNames, refList)
 ### Protein Level 
 
 ```{r fig.width=12}
-dbNames = list( "HPRD (PC)", "Reactome",  "KEGG", "WikiPathways","PhosphoSitePlus")
-dbList = list(HPRD, RXM,KEGG, WP, PSP)
+dbNames = list( "BioGRID", "Reactome","HPRD", "KEGG", "WikiPathways", "SIGNOR","PhosphoSitePlus")
+dbList = list(BG, RXM,HPRD, KEGG, WP, SIG, PSP )
 qPhosNames = list("qPhos HeLa","qPhos HEK293",  "qPhos HeLa S3",  "qPhos Jurkat", "qPhos MCF-7", "qPhos MCF-10A")
 qPhosList = list(QPhos_HeLa, QPhos_HEK293, QPhos_HeLa_S3, QPhos_Jurkat,  QPhos_MCF7, QPhos_MCF10 )
 
@@ -350,19 +363,37 @@ intersection.plot(dbNames, dbList, qPhosNames, qPhosList)
 ### Phosphosite Level 
 
 ```{r fig.width=12}
-dbNames = list("UniProt", "HPRD (PC)", "Reactome", "PhosphoSitePlus")
-dbList = list(UNIPROT_mods, HPRD_mods, RXM_mods, PSP_mods)
+dbNames = list( "BioGRID", "Reactome","HPRD", "SIGNOR", "PhosphoSitePlus")
+dbList = list(BG_mods,RXM_mods, HPRD_mods,SIG_mods, PSP_mods)
 qPhosNames = list("qPhos HeLa","qPhos HEK293",  "qPhos HeLa S3",  "qPhos Jurkat", "qPhos MCF-7", "qPhos MCF-10A")
 qPhosList = list(QPhos_HeLa_mods, QPhos_HEK293_mods, QPhos_HeLa_S3_mods, QPhos_Jurkat_mods,  QPhos_MCF7_mods, QPhos_MCF10_mods )
 
 intersection.plot(dbNames, dbList, qPhosNames, qPhosList)
 ```
 
-## Supplementary Figures 
+## Supplementary Figures
+## Protein Level 
+full UpSet Plot 
+```{r fig.width=18}
+
+listInput <- list(PhosphoSitePlus= PSP, HPRD = HPRD, BioGRID = BG, Reactome = RXM, KEGG= KEGG, WikiPathways = WP, SIGNOR = SIG)
+matrix <- UpSetR::fromList(listInput)
+
+upset(matrix,
+      empty.intersections = "on",
+      order.by = "freq",
+      nsets = 7,
+      text.scale = c(1.5, 1.5, 0, 1.5, 2, 0),
+      nintersects = 1000,
+      scale.sets = "identity",
+      sets.bar.color = c("#909cc2", "#fe7f2d","#233d4d","#a1c181", "#619b8a", "#e099dc", "#fcca46")
+      )
+```
+
 The coverage of SwissProt and Trembl by the signallign databases
 ```{r fig.width=12}
-nameList = list( "Reactome","HPRD (PC)","KEGG", "WikiPathways", "PhosphoSitePlus" )
-dbList = list(RXM, HPRD, KEGG, WP, PSP)
+nameList = list( "HPRD","BioGRID","Reactome","KEGG", "WikiPathways", "PhosphoSitePlus" )
+dbList = list( HPRD, BG, RXM, KEGG, WP, PSP)
 compNameList = list( "SwissProt", "Trembl")
 compList = list( SwissProt, Trembl)
 
@@ -371,10 +402,10 @@ intersection.plot(nameList, dbList, compNameList, compList)
 
 
 ```{r fig.width=12}
-dbNames = list( "Reactome","HPRD (PC)","KEGG", "WikiPathways", "PhosphoSitePlus" )
-dbList = list(RXM, HPRD, KEGG, WP, PSP)
-refNameList = list("QPhos","IMEX","GO\nKinase Activity", "GO Signalling")
-refList = list(QPHOS, IMEX, GO_KA, GO_SIG)
+dbNames = list( "HPRD","BioGRID","Reactome","KEGG", "WikiPathways", "PhosphoSitePlus", "SIGNOR" )
+dbList = list(HPRD,BG,RXM,KEGG, WP, PSP, SIG)
+refNameList = list("qPhos","IMEX","GO Protein\nKinase Activity", "GO Signalling", "UniProt keyword:\nPhosphoProtein")
+refList = list(QPHOS, IMEX, GO_PKA, GO_SIG, UP_PP)
 ```
 
 ### Protein level
@@ -397,8 +428,8 @@ setDifference.plot( refNameList, refList, dbNames, dbList)
 ```
 
 ```{r}
-dbNames = list( "HPRD (PC)", "PhosphoSitePlus", "Reactome")
-dbList = list( HPRD_mods, PSP_mods, RXM_mods )
+dbNames = list( "HPRD", "PhosphoSitePlus","BioGRID", "Reactome", "SIGNOR")
+dbList = list( HPRD_mods, PSP_mods,BG_mods ,RXM_mods, SIG_mods )
 refNames = list("QPhos", "UniProt" )
 refList = list(QPhos_mods, UNIPROT_mods)
 ```
@@ -425,14 +456,14 @@ setDifference.plot( refNames, refList, dbNames, dbList)
 ### Over Representation Analysis of Databases
 Gene Ontology Molecular Function 
 ```{r, fig.width=20}
-ultimate <- c(PSP,RXM,HPRD,KEGG,WP)
+ultimate <- c(PSP,RXM,HPRD,KEGG,WP, BG, SIG)
 ultimate <- as.vector(unique(ultimate))
 length(unique(ultimate))
 ```
 
 Reactome
 ```{r, fig.width=20}
-comp <- c(PSP,HPRD,KEGG,WP)
+comp <- c(PSP,HPRD,KEGG,WP,BG, SIG)
 comp <- unique(comp)
 rxm_unique<- setdiff(RXM, comp)
 
@@ -440,7 +471,7 @@ erichment.plot(rxm_unique, ultimate,"Reactome")
 ```
 HPRD
 ```{r fig.width=12}
-comp <- c(PSP, KEGG,WP, RXM)
+comp <- c(PSP, KEGG,WP, RXM, BG, SIG)
 comp <- unique(comp)
 hprd_unique<- setdiff(HPRD, comp)
 
@@ -448,7 +479,7 @@ erichment.plot(hprd_unique, ultimate,"HPRD")
 ```
 KEGG
 ```{r fig.width=12}
-comp <- c(HPRD,PSP,WP, RXM)
+comp <- c(HPRD,PSP,WP, RXM, BG,SIG)
 comp <- unique(comp)
 kegg_unique<- setdiff(KEGG, comp)
 
@@ -456,7 +487,7 @@ erichment.plot(kegg_unique, ultimate,"KEGG")
 ```
 WikiPathways
 ```{r fig.width=12}
-comp <- c(HPRD,PSP,KEGG, RXM)
+comp <- c(HPRD,PSP,KEGG, RXM, BG, SIG)
 comp <- unique(comp)
 wp_unique<- setdiff(WP, comp)
 
@@ -464,11 +495,25 @@ erichment.plot(wp_unique, ultimate,"WikiPathways")
 ```
 PhosphoSitePlus
 ```{r fig.width=12}
-comp <- c(HPRD,KEGG,WP, RXM)
+comp <- c(HPRD,KEGG,WP, RXM, BG, SIG)
 comp <- unique(comp)
 psp_unique<- setdiff(PSP, comp)
-
 erichment.plot(psp_unique, ultimate,"PhosphoSitePlus")
 ```
+BioGRID
+```{r fig.width=12}
+comp <- c(HPRD,KEGG,WP, RXM, PSP, SIG)
+comp <- unique(comp)
+bg_unique<- setdiff(BG, comp)
 
+erichment.plot(bg_unique, ultimate,"BioGRID")
+```
+SIGNOR
+```{r fig.width=12}
+comp <- c(HPRD,KEGG,WP, RXM, PSP, BG)
+comp <- unique(comp)
+sig_unique<- setdiff(SIG, comp)
+
+erichment.plot(sig_unique, ultimate,"SIGNOR")
+```
 
