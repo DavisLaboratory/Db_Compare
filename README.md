@@ -16,12 +16,15 @@ conda create --name DbCompareConda \
   pandas \
   requests \
   urllib3 \
+  bs4 \
   tqdm \
+  lxml \
   r=3.6 \
   r-upsetr \
   r-sna \
   r-plotrix \
   r-ggplot2 \
+  r-rmarkdown \
   bioconductor-clusterprofiler \
   bioconductor-org.hs.eg.db \
   pandoc \
@@ -59,12 +62,12 @@ The consistency analysis results can be found in each's database directory (For 
 
 ### Databases for step 2
 
-Download the following files and place in the directory created in step 1.
+Download the following files and place in the directory created in DbCompare
 * Download the OWL file for Ractome, use Homo_sapiens (from Reactome, [BioPAX level 3](https://reactome.org/download/current/biopax.zip)) and name it RXM.owl
-* Download the OWL file for PhosphoSitePlus (from PhosphoSitePlus, [BioPAX:Kinase-substrate information](https://www.phosphosite.org/staticDownloads)) and name it PSP.owl
-* Download the file for the full version of PhosphoSitePlus (from PhosphoSitePlus, [Phosphorylation_site_dataset](https://www.phosphosite.org/staticDownloads)) and name it PSP_full.tsv
+* Download the OWL file for PhosphoSitePlus (from [PhosphoSitePlus](https://www.phosphosite.org/staticDownloads),  navigate to the downloads page, login, and download the file: BioPAX:Kinase-substrate information) and name it PSP.owl
+* Download the file for the full version of PhosphoSitePlus (from [PhosphoSitePlus](https://www.phosphosite.org/homeAction), navigate to the downloads page, login, and download the file: Phosphorylation_site_dataset) and name it PSP_full.tsv
 * Download the OWL file for HPRD (from Pathway Commons [PathwayCommons11.hprd.BIOPAX.owl.gz ](https://www.pathwaycommons.org/archives/PC2/v11/PathwayCommons11.hprd.BIOPAX.owl.gz)) and name it HPRD.owl
 * Download the gmt file for WikiPathways (from WikiPathways, Homo_sapiens [Gene lists per pathway(GMT)](http://data.wikipathways.org/current/gmt/wikipathways-20200810-gmt-Homo_sapiens.gmt)) and name it WP.tsv
 * Download the ppi from IMEX (from IMEX [intact-micluster.txt from psi-mitab](https://www.ebi.ac.uk/intact/downloads)) and name it IMEX.tsv
 * Request the dataset from [qPhos](http://qphos.cancerbio.info/download.php) and name the file QPHOS_DATA.tsv
-* Copy the qPhos supplementary data file from the 'about' page in the qPhos website and name the file QPHOS_SUPP_DATA.tsv
+* Copy the qPhos Summary of curated literatures table from the 'help' page in the qPhos website and name the file QPHOS_SUPP_DATA.tsv
