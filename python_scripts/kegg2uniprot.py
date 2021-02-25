@@ -68,10 +68,10 @@ with urllib.request.urlopen(req) as r:
                 rev_dict[eid]['rev'] += 1
                 if int(length) > int(rev_dict[eid]['maxLenRev']):
                     rev_dict[eid]['maxLenRev'] = length
-                elif rev  == 'unreviewed':
-                    rev_dict[eid]['unrev'] += 1
-                    if int(length) > int(rev_dict[eid]['maxLenUn']):
-                        rev_dict[eid]['maxLenUn'] = length
+            elif rev  == 'unreviewed':
+                rev_dict[eid]['unrev'] += 1
+                if int(length) > int(rev_dict[eid]['maxLenUn']):
+                    rev_dict[eid]['maxLenUn'] = length
 
         #go back through one last time and compare to all other entries for that eid
         used = []

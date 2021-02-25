@@ -16,10 +16,10 @@ def extract_UIDs():
     trmbl_uids = open("Trembl.tsv","w+")
 
     #actually mods 
-    all_uids = open("SwissProtMods.tsv","w+")
+    all_mods = open("SwissProtMods.tsv","w+")
 
     #uids 
-    all = open("SwissProt.tsv","w+")
+    all_uids = open("SwissProt.tsv","w+")
 
     lines = myfile.text.split('\n')
     
@@ -28,18 +28,21 @@ def extract_UIDs():
     
     for i in range(0,len(lines)-1):
         line = lines[i].split('\t')
-        all.write(line[0] + "\n")
+        all_uids.write(line[0] + "\n")
         mods = line[3].split(";")
         for j in range(0,len(mods)):
             if "Phosphoserine" in mods[j]:
-                num = re.findall(r"\d+",mods[j-1])
-                all_uids.write(line[0] + "_p-S"+str(num[0])+"\n")
+                if ":" not in mods[j-1]:
+                    num = re.findall(r"\d+",mods[j-1])
+                    all_mods.write(line[0] + "_p-S"+str(num[0])+"\n")
             elif "Phosphotyrosine" in mods[j]:
-                num = re.findall(r"\d+",mods[j-1])
-                all_uids.write(line[0] + "_p-Y"+str(num[0])+"\n")
+                if ":" not in mods[j-1]:
+                    num = re.findall(r"\d+",mods[j-1])
+                    all_mods.write(line[0] + "_p-Y"+str(num[0])+"\n")
             elif "Phosphothreonine" in mods[j]:
-                num = re.findall(r"\d+",mods[j-1])
-                all_uids.write(line[0] + "_p-T"+str(num[0])+"\n")
+                if ":" not in mods[j-1]:
+                    num = re.findall(r"\d+",mods[j-1])
+                    all_mods.write(line[0] + "_p-T"+str(num[0])+"\n")
 
     lines = myfile_trambl.text.split('\n')
     for i in range(0,len(lines)-1):
@@ -49,7 +52,7 @@ def extract_UIDs():
 
     trmbl_uids.close()
     all_uids.close()
-    all.close()
+    all_mods.close()
 
 def main():
     # df to add to
